@@ -4,7 +4,7 @@
 Flutterfire scaffold project intended to minimize the initial time setup of any Flutter + Firebase project. Includes basic features, setup configurations, authentication, state management initialization, routing and couple of standard screens
 
 <div align="center">
-  <a href="https://firebase.google.com/docs/flutter">
+  <a href="https://firebase.flutter.dev/docs/overview/">
     <img width="500" height="140px" src="https://user-images.githubusercontent.com/22548752/186985350-2c9af743-aa82-47b5-b373-94e72a62c560.jpg" alt="Flutter + Firebase + Riverpod logo"><br/>
   </a>
   <h1 align="center">Flutterfire + Riverpod</h1>
