@@ -5,5 +5,7 @@ abstract class AuthenticationRepo {
   User? getCurrentUser();
   Future<User?> signUp(String email, String password);
   Future<User?> signIn(String email, String password);
+  Future<User?> signInWithGoogle();
+  Future<User?> signInWithApple();
   Future<void> signOut();
 }

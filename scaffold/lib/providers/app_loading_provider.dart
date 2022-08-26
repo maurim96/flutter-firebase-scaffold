@@ -3,6 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scaffold/providers/providers.dart';
 
 final appLoadingProvider = Provider<User?>((ref) {
-  final user = ref.read(authenticationProvider);
+  final user = ref.read(authenticationProvider.notifier).getCurrentUser();
   return user;
 });
