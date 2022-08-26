@@ -1,0 +1,3 @@
+scaffold/android/app/google-services.json
+scaffold/ios/firebase_app_id_file.json
+scaffold/lib/firebase_options.dart
