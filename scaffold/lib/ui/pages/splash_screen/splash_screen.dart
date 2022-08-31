@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scaffold/ui/widgets/widgets.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -6,7 +7,10 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: CircularProgressIndicator(),
+      child: CustomCircularLoader(
+        isLoading: true,
+        child: SizedBox.shrink(),
+      ),
     );
   }
 }

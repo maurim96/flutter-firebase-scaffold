@@ -8,15 +8,24 @@ class AppLoading extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.read(appLoadingProvider);
+    final result = ref.read(appLoadingProvider);
 
-    final isUserLoggedIn = userState != null;
+    return result.when(
+      data: (user) {
 
-    if (isUserLoggedIn) {
-      return const LoggedInAware();
-    }
+        final isUserLoggedIn = user != null;
 
-    return const SignUpPage();
+        if (isUserLoggedIn) {
+          return const LoggedInAware();
+        }
+
+        return const SignInPage();
+      },
+      error: (error, stackTrace) {
+        return const SignInPage();
+      },
+      loading: () => const SplashScreen(),
+    );
   }
 }
 
@@ -31,7 +40,20 @@ class LoggedInAwareState extends ConsumerState<LoggedInAware> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _evaluateUserCondition();
+    });
   }
+  
+  void _evaluateUserCondition() async {
+    Navigator.popAndPushNamed(
+      context,
+      'home',
+    );
+    return;
+  }
+
 
   @override
   Widget build(BuildContext context) {
