@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scaffold/domain/ports/outbound/authentication_repo.dart';
+import 'package:scaffold/firebase_options.dart';
 import 'package:scaffold/utils/utils.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -53,7 +54,9 @@ class FirebaseAuthentication implements AuthenticationRepo {
   @override
   Future<User?> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+              clientId: DefaultFirebaseOptions.currentPlatform.iosClientId)
+          .signIn();
 
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;

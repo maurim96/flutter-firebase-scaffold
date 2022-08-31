@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scaffold/app/app_loading.dart';
+import 'package:scaffold/app/theme.dart';
 import 'package:scaffold/routing.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -16,8 +19,10 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Footprint',
+      theme: appTheme(),
+      title: 'Scaffold',
       navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldKey,
       home: const AppLoading(),
       onGenerateRoute: Routing.generateRoute,
     );

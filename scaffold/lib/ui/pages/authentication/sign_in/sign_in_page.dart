@@ -6,30 +6,25 @@ import 'package:scaffold/ui/theme/custom_colors.dart';
 import 'package:scaffold/ui/widgets/widgets.dart';
 import 'package:scaffold/utils/utils.dart';
 
-class SignUpPage extends ConsumerStatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class SignInPage extends ConsumerStatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends ConsumerState<SignUpPage> {
+class _SignInPageState extends ConsumerState<SignInPage> {
   final formKey = GlobalKey<FormState>();
   bool loading = false;
   final emailController = TextEditingController();
-  final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  signUpWithEmailAndPassword() async {
+  signInWithEmailAndPassword() async {
     if (formKey.currentState!.validate()) {
       setState(() => loading = true);
       final navigator = Navigator.of(context);
-      final result =
-          await ref.read(authenticationProvider.notifier).signUp(
-            name: nameController.text,
-            email: emailController.text,
-            password: passwordController.text,
-          );
+      final result = await ref.read(authenticationProvider.notifier).signIn(
+          email: emailController.text, password: passwordController.text);
 
       setState(() => loading = false);
       if (result != null) {
@@ -38,7 +33,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     }
   }
 
-  signUpWithGoogle() async {
+  signInWithGoogle() async {
     setState(() => loading = true);
     final navigator = Navigator.of(context);
     final result =
@@ -65,7 +60,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
               padding: EdgeInsets.only(
                   top: displayHeight(context) / 7, left: 20, bottom: 10),
               child: Text(
-                "Create Account",
+                "Log In",
                 style: Theme.of(context).textTheme.headline4?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -88,21 +83,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   child: Column(
                     children: [
                       RegularTextFieldWidget(
-                        label: "Full Name",
-                        textCapitalization: TextCapitalization.words,
-                        textEditingController: nameController,
-                        textInputType: TextInputType.name,
-                        validator: (value) => Utils.isEmpty(value),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      RegularTextFieldWidget(
                         label: "Email",
                         textCapitalization: TextCapitalization.none,
                         textEditingController: emailController,
                         textInputType: TextInputType.emailAddress,
-                        validator: (value) => Utils.isEmailValid(value),
+                        validator: (value) =>
+                            Utils.isEmailValid(value as String),
                       ),
                       const SizedBox(
                         height: 20,
@@ -114,14 +100,29 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                             Utils.isValidPassword(password),
                       ),
                       const SizedBox(
-                        height: 35,
+                        height: 15,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "Forgot password?",
+                          textAlign: TextAlign.right,
+                          style: (Theme.of(context).textTheme.bodyText2
+                                  as TextStyle)
+                              .copyWith(
+                            color: placeholder,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       PrimaryButton(
-                        title: "Sign Up",
+                        title: "Sign In",
                         minimumSize: MaterialStateProperty.all(
                           const Size.fromHeight(45),
                         ),
-                        onPressed: () => signUpWithEmailAndPassword(),
+                        onPressed: () => signInWithEmailAndPassword(),
                       ),
                       const SizedBox(
                         height: 10,
@@ -135,7 +136,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                         height: 10,
                       ),
                       GoogleSignInButton(
-                        onPressed: () => signUpWithGoogle(),
+                        onPressed: () => signInWithGoogle(),
                         minimumSize: MaterialStateProperty.all(
                           const Size.fromHeight(45),
                         ),
@@ -150,10 +151,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                                text: "Already have an account? ",
+                                text: "Don't have an account? ",
                                 style: Theme.of(context).textTheme.bodyText2),
                             TextSpan(
-                              text: "Sign In",
+                              text: "Sign Up",
                               style: (Theme.of(context).textTheme.bodyText2
                                       as TextStyle)
                                   .copyWith(
@@ -162,7 +163,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () => Navigator.pushReplacementNamed(
                                       context,
-                                      'sign_in',
+                                      'sign_up',
                                     ),
                             ),
                           ],

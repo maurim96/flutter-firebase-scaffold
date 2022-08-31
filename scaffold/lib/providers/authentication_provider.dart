@@ -34,12 +34,20 @@ class AuthenticationProvider extends StateNotifier<User?> {
     await _read(authenticationRepositoryProvider).signOut();
   }
 
-  Future<User?> signIn(String email, String password) async {
+  Future<User?> signIn(
+      {required String email, required String password}) async {
     return await _read(authenticationRepositoryProvider)
         .signIn(email, password);
   }
 
-  Future<User?> signUp(String email, String password) async {
+  Future<User?> signInWithGoogle() async {
+    return await _read(authenticationRepositoryProvider).signInWithGoogle();
+  }
+
+  Future<User?> signUp(
+      {required String name,
+      required String email,
+      required String password}) async {
     return await _read(authenticationRepositoryProvider)
         .signUp(email, password);
   }

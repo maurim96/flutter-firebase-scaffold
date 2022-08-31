@@ -16,7 +16,7 @@ class AppLoading extends ConsumerWidget {
       return const LoggedInAware();
     }
 
-    return const SignUpPage();
+    return const SignInPage();
   }
 }
 
@@ -31,7 +31,20 @@ class LoggedInAwareState extends ConsumerState<LoggedInAware> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _evaluateUserCondition();
+    });
   }
+  
+  void _evaluateUserCondition() async {
+    Navigator.popAndPushNamed(
+      context,
+      'home',
+    );
+    return;
+  }
+
 
   @override
   Widget build(BuildContext context) {
