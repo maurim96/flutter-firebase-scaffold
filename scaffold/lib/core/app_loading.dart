@@ -8,15 +8,24 @@ class AppLoading extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.read(appLoadingProvider);
+    final result = ref.read(appLoadingProvider);
 
-    final isUserLoggedIn = userState != null;
+    return result.when(
+      data: (user) {
 
-    if (isUserLoggedIn) {
-      return const LoggedInAware();
-    }
+        final isUserLoggedIn = user != null;
 
-    return const SignInPage();
+        if (isUserLoggedIn) {
+          return const LoggedInAware();
+        }
+
+        return const SignInPage();
+      },
+      error: (error, stackTrace) {
+        return const SignInPage();
+      },
+      loading: () => const SplashScreen(),
+    );
   }
 }
 

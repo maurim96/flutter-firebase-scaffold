@@ -16,6 +16,7 @@ class SignInPage extends ConsumerStatefulWidget {
 class _SignInPageState extends ConsumerState<SignInPage> {
   final formKey = GlobalKey<FormState>();
   bool loading = false;
+  String errorMsg = '';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -26,10 +27,17 @@ class _SignInPageState extends ConsumerState<SignInPage> {
       final result = await ref.read(authenticationProvider.notifier).signIn(
           email: emailController.text, password: passwordController.text);
 
-      setState(() => loading = false);
-      if (result != null) {
+      result.when(
+        data: (value) {
+          setState(() => loading = false);
         navigator.popAndPushNamed("home");
-      }
+        },
+        error: (error, stackTrace) {
+          setState(() => loading = false);
+          setState(() => errorMsg = error.toString());
+        },
+        loading: () => {},
+      );
     }
   }
 
@@ -39,10 +47,17 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     final result =
         await ref.read(authenticationProvider.notifier).signInWithGoogle();
 
-    setState(() => loading = false);
-    if (result != null) {
-      navigator.popAndPushNamed("home");
-    }
+    result.when(
+      data: (value) {
+        setState(() => loading = false);
+        navigator.popAndPushNamed("home");
+      },
+      error: (error, stackTrace) {
+        setState(() => loading = false);
+        setState(() => errorMsg = error.toString());
+      },
+      loading: () => {},
+    );
   }
 
   @override
@@ -63,7 +78,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                 "Log In",
                 style: Theme.of(context).textTheme.headline4?.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
             ),
@@ -99,6 +114,19 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                         validator: (password) =>
                             Utils.isValidPassword(password),
                       ),
+                      errorMsg.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(errorMsg,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: error)),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       const SizedBox(
                         height: 15,
                       ),

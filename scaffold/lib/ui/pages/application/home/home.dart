@@ -14,9 +14,13 @@ class HomePageState extends ConsumerState<HomePage> {
   signOut() async {
     final navigator = Navigator.of(context);
 
-    await ref.read(authenticationProvider.notifier).signOut();
+    final result = await ref.read(authenticationProvider.notifier).signOut();
 
-    navigator.pushReplacementNamed("sign_in");
+    result.when(
+      data: (_) => navigator.pushReplacementNamed("sign_in"),
+      error: (error, stackTrace) => {},
+      loading: () => setState((() => {})),
+    );
   }
 
   @override

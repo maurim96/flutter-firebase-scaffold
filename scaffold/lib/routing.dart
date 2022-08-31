@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scaffold/app/app_loading.dart';
+import 'package:scaffold/core/app_loading.dart';
 import 'package:scaffold/ui/pages/pages.dart';
 
 class Routing {

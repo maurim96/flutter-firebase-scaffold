@@ -16,13 +16,19 @@ class SignUpPage extends ConsumerStatefulWidget {
 class _SignUpPageState extends ConsumerState<SignUpPage> {
   final formKey = GlobalKey<FormState>();
   bool loading = false;
+  String errorMsg = '';
   final emailController = TextEditingController();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  _setLoading() {
+    setState(() => loading = true);
+    setState(() => errorMsg = "");
+  }
+
   signUpWithEmailAndPassword() async {
     if (formKey.currentState!.validate()) {
-      setState(() => loading = true);
+      _setLoading();
       final navigator = Navigator.of(context);
       final result =
           await ref.read(authenticationProvider.notifier).signUp(
@@ -31,23 +37,37 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             password: passwordController.text,
           );
 
-      setState(() => loading = false);
-      if (result != null) {
+      result.when(
+        data: (value) {
+          setState(() => loading = false);
         navigator.popAndPushNamed("home");
-      }
+        },
+        error: (error, stackTrace) {
+          setState(() => loading = false);
+          setState(() => errorMsg = error.toString());
+        },
+        loading: () => {},
+      );
     }
   }
 
   signUpWithGoogle() async {
-    setState(() => loading = true);
+    _setLoading();
     final navigator = Navigator.of(context);
     final result =
         await ref.read(authenticationProvider.notifier).signInWithGoogle();
 
-    setState(() => loading = false);
-    if (result != null) {
-      navigator.popAndPushNamed("home");
-    }
+    result.when(
+      data: (value) {
+        setState(() => loading = false);
+        navigator.popAndPushNamed("home");
+      },
+      error: (error, stackTrace) {
+        setState(() => loading = false);
+        setState(() => errorMsg = error.toString());
+      },
+      loading: () => {},
+    );
   }
 
   @override
@@ -68,7 +88,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 "Create Account",
                 style: Theme.of(context).textTheme.headline4?.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
             ),
@@ -113,8 +133,21 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                         validator: (password) =>
                             Utils.isValidPassword(password),
                       ),
+                      errorMsg.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(errorMsg,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: error)),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       const SizedBox(
-                        height: 35,
+                        height: 25,
                       ),
                       PrimaryButton(
                         title: "Sign Up",

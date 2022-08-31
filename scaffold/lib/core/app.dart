@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scaffold/app/app_loading.dart';
-import 'package:scaffold/app/theme.dart';
+import 'package:scaffold/core/app_loading.dart';
+import 'package:scaffold/ui/theme/theme.dart';
 import 'package:scaffold/routing.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

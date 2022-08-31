@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:scaffold/core/error_handling/exceptions_mapper.dart';
 import 'package:scaffold/domain/ports/outbound/authentication_repo.dart';
 import 'package:scaffold/firebase_options.dart';
 import 'package:scaffold/utils/utils.dart';
@@ -22,37 +23,44 @@ class FirebaseAuthentication implements AuthenticationRepo {
       _read(firebaseAuthProvider).authStateChanges();
 
   @override
-  User? getCurrentUser() {
+  AsyncValue<User?> getCurrentUser() {
     try {
-      return _read(firebaseAuthProvider).currentUser;
-    } catch (e) {
-      rethrow;
+      return AsyncData(_read(firebaseAuthProvider).currentUser);
+    } on FirebaseAuthException catch (e) {
+      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
+    } on Exception catch (e) {
+      return AsyncError(Exception(getMessageFromException(e)));
     }
   }
 
   @override
-  Future<void> signOut() {
+  Future<AsyncValue<void>> signOut() async {
     try {
-      return _read(firebaseAuthProvider).signOut();
-    } catch (e) {
-      rethrow;
+      await _read(firebaseAuthProvider).signOut();
+      return const AsyncValue.data(null);
+    } on FirebaseAuthException catch (e) {
+      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
+    } on Exception catch (e) {
+      return AsyncError(Exception(getMessageFromException(e)));
     }
   }
 
   @override
-  Future<User?> signIn(String email, String password) async {
+  Future<AsyncValue<User?>> signIn(String email, String password) async {
     try {
       UserCredential userCredential = await _read(firebaseAuthProvider)
           .signInWithEmailAndPassword(email: email, password: password);
 
-      return userCredential.user;
-    } catch (e) {
-      rethrow;
+      return AsyncValue.data(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
+    } on Exception catch (e) {
+      return AsyncError(Exception(getMessageFromException(e)));
     }
   }
 
   @override
-  Future<User?> signInWithGoogle() async {
+  Future<AsyncValue<User?>> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn(
               clientId: DefaultFirebaseOptions.currentPlatform.iosClientId)
@@ -69,15 +77,15 @@ class FirebaseAuthentication implements AuthenticationRepo {
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      return userCredential.user;
-    } catch (e) {
-      rethrow;
+      return AsyncValue.data(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      return AsyncValue.error(e);
     }
   }
 
   // TODO: to be implemented
   @override
-  Future<User?> signInWithApple() async {
+  Future<AsyncValue<User?>> signInWithApple() async {
     try {
       final rawNonce = generateNonce();
       final nonce = sha256ofString(rawNonce);
@@ -98,21 +106,25 @@ class FirebaseAuthentication implements AuthenticationRepo {
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
 
-      return userCredential.user;
-    } catch (e) {
-      rethrow;
+      return AsyncValue.data(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
+    } on Exception catch (e) {
+      return AsyncError(Exception(getMessageFromException(e)));
     }
   }
 
   @override
-  Future<User?> signUp(String email, String password) async {
+  Future<AsyncValue<User?>> signUp(String email, String password) async {
     try {
       UserCredential userCredential = await _read(firebaseAuthProvider)
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      return userCredential.user;
-    } catch (e) {
-      rethrow;
+      return AsyncValue.data(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
+    } on Exception catch (e) {
+      return AsyncError(Exception(getMessageFromException(e)));
     }
   }
 }

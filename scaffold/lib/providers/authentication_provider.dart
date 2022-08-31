@@ -26,25 +26,25 @@ class AuthenticationProvider extends StateNotifier<User?> {
     super.dispose();
   }
 
-  User? getCurrentUser() {
+  AsyncValue<User?> getCurrentUser() {
     return _read(authenticationRepositoryProvider).getCurrentUser();
   }
 
-  Future<void> signOut() async {
-    await _read(authenticationRepositoryProvider).signOut();
+  Future<AsyncValue<void>> signOut() async {
+    return await _read(authenticationRepositoryProvider).signOut();
   }
 
-  Future<User?> signIn(
+  Future<AsyncValue<User?>> signIn(
       {required String email, required String password}) async {
     return await _read(authenticationRepositoryProvider)
         .signIn(email, password);
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<AsyncValue<User?>> signInWithGoogle() async {
     return await _read(authenticationRepositoryProvider).signInWithGoogle();
   }
 
-  Future<User?> signUp(
+  Future<AsyncValue<User?>> signUp(
       {required String name,
       required String email,
       required String password}) async {
