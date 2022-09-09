@@ -1,7 +1,7 @@
 # :construction: :construction_worker: Flutterfire Scaffold - Under construction... :construction_worker_woman: :construction:
 
 ## Description
-Flutterfire scaffold project intended to minimize the initial time setup of any Flutter + Firebase project. Includes basic features, setup configurations, authentication, state management initialization, routing and couple of standard screens
+Flutterfire scaffold project intended to minimize the initial time setup of any Flutter + Firebase + Riverpod project. Includes basic features, setup configurations, flutter flavors for environments management, authentication, state management initialization, routing and a couple of standard screens
 
 <div align="center">
   <a href="https://firebase.flutter.dev/docs/overview/">
@@ -19,9 +19,49 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 - [x] VS Code (1.70.2) or similar IDE - https://code.visualstudio.com/
 - [x] CocoaPods (1.11.3) - https://cocoapods.org/
 
-## Architecture
+## Prerequisites Steps
+- Setup two Firebase Projects (Dev & Prod) - https://console.firebase.google.com/
+- Enable Authentication: Email and Password, Google and Apple providers
+- Enable Firestore Collection from Firebase console. Basic rule you can implement:
 
-#### Repository Pattern
+  ```
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+      function isLoggedIn() {
+          return request.auth != null;
+        }
+        
+        match /{document=**} {
+          allow read, write: if isLoggedIn();
+        }
+      }
+    }
+    ```
+- Run `flutterfire configure` for each of them (it will generate 3 files per environment):
+  - Rename and replace `firebase_options_dev.dart` and `firebase_options_prod.dart` inside `app/lib`
+  - Replace `google-services.json` inside `app/android/app/src/dev` and `app/android/app/src/prod`
+  - Replace `firebase_app_id_file.json` inside `app/ios/Runner/Firebase/Dev` and `app/ios/Runner/Firebase/Dev` 
+    - **Important: drag and drop the files from XCode, otherwise it won't work**
+
+## Useful Commands
+- Run app in debug mode - dev
+  - ##### `flutter run --flavor dev`
+- Build app in release mode for ios - dev
+  - ##### `flutter build ios --release --flavor dev`
+- Build app in release mode for android - dev
+  - ##### `flutter build apk --release --flavor dev`
+- Run app in debug mode - prod
+  - ##### `flutter run --flavor prod`
+- Build app in release mode for ios - prod
+  - ##### `flutter build ios --release --flavor prod`
+- Build app in release mode for android - prod
+  - ##### `flutter build apk --release --flavor prod`
+
+#
+
+## Architecture
+### Clean Architecture + Repository Pattern
 ![Structure Example](https://miro.medium.com/max/1400/1*xxr1Idc8UoNELOzqXcJnag.png)
 
 #### Packages
@@ -32,8 +72,8 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 ## Features & Libraries
 
 ### State Management
-
-##### Riverpod (1.0.4) - https://pub.dev/packages/flutter_riverpod
+#### Riverpod
+##### -> Riverpod (1.0.4) - https://pub.dev/packages/flutter_riverpod
 
 ### Firebase Features
 
@@ -44,3 +84,6 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 
 #### Persistance
 ##### -> Firestore Collection (3.4.6) - https://pub.dev/packages/cloud_firestore
+
+#### Push Notifications
+##### -> Firebase Messaging (13.0.1) - https://pub.dev/packages/firebase_messaging
