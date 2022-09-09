@@ -1,3 +1,8 @@
-scaffold/android/app/google-services.json
-scaffold/ios/firebase_app_id_file.json
-scaffold/lib/firebase_options.dart
+app/android/app/google-services.json
+app/android/app/src/dev/google-services.json
+app/android/app/src/prod/google-services.json
+app/ios/firebase_app_id_file.json
+app/lib/firebase_options_dev.dart
+app/lib/firebase_options_prod.dart
+app/ios/Runner/Firebase/Dev/firebase_app_id_file.json
+app/ios/Runner/Firebase/Prod/firebase_app_id_file.json
