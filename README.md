@@ -11,11 +11,11 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 </div>
 
 ## Prerequisites
-- [x] Flutter SDK (3.0.5) - https://docs.flutter.dev/development/tools/sdk/releases
-- [x] Flutterfire CLI (0.2.1+1) - https://firebase.flutter.dev/docs/overview
+- [x] Flutter SDK (3.7.1) - https://docs.flutter.dev/development/tools/sdk/releases
+- [x] Flutterfire CLI (0.2.7) - https://firebase.flutter.dev/docs/overview
 - [x] Android Studio (2021.1) - https://developer.android.com/studio
 - [x] Android SDK (32.1.0-rc1)
-- [x] Xcode (13.4.1) - https://developer.apple.com/xcode/
+- [x] Xcode (14.2) - https://developer.apple.com/xcode/
 - [x] VS Code (1.70.2) or similar IDE - https://code.visualstudio.com/
 - [x] CocoaPods (1.11.3) - https://cocoapods.org/
 
@@ -78,12 +78,12 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 ### Firebase Features
 
 #### Authentication
-##### -> Email & Password (3.3.15) - https://pub.dev/packages/firebase_auth
+##### -> Email & Password (4.2.0) - https://pub.dev/packages/firebase_auth
 ##### -> Google Provider (5.4.1) - https://pub.dev/packages/google_sign_in
 ##### -> Apple Provider (4.1.0) - https://pub.dev/packages/sign_in_with_apple + https://pub.dev/packages/crypto
 
 #### Persistance
-##### -> Firestore Collection (3.4.6) - https://pub.dev/packages/cloud_firestore
+##### -> Firestore Collection (4.2.0) - https://pub.dev/packages/cloud_firestore
 
 #### Push Notifications
-##### -> Firebase Messaging (13.0.1) - https://pub.dev/packages/firebase_messaging
+##### -> Firebase Messaging (14.1.4) - https://pub.dev/packages/firebase_messaging
