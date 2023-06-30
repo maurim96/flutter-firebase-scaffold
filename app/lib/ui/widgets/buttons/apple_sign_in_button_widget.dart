@@ -59,7 +59,7 @@ class AppleSignInButton extends StatelessWidget {
           ),
           Text(
             "Continue with Apple",
-            style: Theme.of(context).textTheme.button?.copyWith(
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: Colors.white,
                 ),
           ),

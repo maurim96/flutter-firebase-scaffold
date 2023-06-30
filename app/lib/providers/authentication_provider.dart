@@ -5,17 +5,18 @@ import 'package:app/services/services.dart';
 
 final authenticationProvider =
     StateNotifierProvider<AuthenticationProvider, User?>(
-  (ref) => AuthenticationProvider(ref.read),
+  (ref) => AuthenticationProvider(ref),
 );
 
 class AuthenticationProvider extends StateNotifier<User?> {
-  final Reader _read;
+  final Ref _ref;
 
   StreamSubscription<User?>? _authStateChangesSubscription;
 
-  AuthenticationProvider(this._read) : super(null) {
+  AuthenticationProvider(this._ref) : super(null) {
     _authStateChangesSubscription?.cancel();
-    _authStateChangesSubscription = _read(authenticationRepositoryProvider)
+    _authStateChangesSubscription = _ref
+        .watch(authenticationRepositoryProvider)
         .authStateChanges
         .listen((user) => state = user);
   }
@@ -27,28 +28,30 @@ class AuthenticationProvider extends StateNotifier<User?> {
   }
 
   AsyncValue<User?> getCurrentUser() {
-    return _read(authenticationRepositoryProvider).getCurrentUser();
+    return _ref.read(authenticationRepositoryProvider).getCurrentUser();
   }
 
   Future<AsyncValue<void>> signOut() async {
-    return await _read(authenticationRepositoryProvider).signOut();
+    return await _ref.read(authenticationRepositoryProvider).signOut();
   }
 
   Future<AsyncValue<User?>> signIn(
       {required String email, required String password}) async {
-    return await _read(authenticationRepositoryProvider)
+    return await _ref
+        .read(authenticationRepositoryProvider)
         .signIn(email, password);
   }
 
   Future<AsyncValue<User?>> signInWithGoogle() async {
-    return await _read(authenticationRepositoryProvider).signInWithGoogle();
+    return await _ref.read(authenticationRepositoryProvider).signInWithGoogle();
   }
 
   Future<AsyncValue<User?>> signUp(
       {required String name,
       required String email,
       required String password}) async {
-    return await _read(authenticationRepositoryProvider)
+    return await _ref
+        .read(authenticationRepositoryProvider)
         .signUp(email, password);
   }
 }

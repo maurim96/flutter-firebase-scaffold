@@ -58,7 +58,7 @@ class GoogleSignInButton extends StatelessWidget {
           ),
           Text(
             "Continue with Google",
-            style: Theme.of(context).textTheme.button?.copyWith(),
+            style: Theme.of(context).textTheme.labelLarge,
           ),
         ],
       ),

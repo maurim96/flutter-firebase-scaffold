@@ -15,13 +15,22 @@ import 'services/firebase_service.dart'
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
-Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
-    {String? environment, _i2.EnvironmentFilter? environmentFilter}) async {
-  final gh = _i2.GetItHelper(get, environment, environmentFilter);
+Future<_i1.GetIt> $initGetIt(
+  _i1.GetIt get, {
+  String? environment,
+  _i2.EnvironmentFilter? environmentFilter,
+}) async {
+  final gh = _i2.GetItHelper(
+    get,
+    environment,
+    environmentFilter,
+  );
   final appModule = _$AppModule();
   gh.factory<_i3.FirebaseFirestore>(() => appModule.store);
-  await gh.factoryAsync<_i4.FirebaseService>(() => appModule.fireService,
-      preResolve: true);
+  await gh.factoryAsync<_i4.FirebaseService>(
+    () => appModule.fireService,
+    preResolve: true,
+  );
   return get;
 }
 
