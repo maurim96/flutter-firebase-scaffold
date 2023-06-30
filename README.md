@@ -11,13 +11,13 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 </div>
 
 ## Prerequisites
-- [x] Flutter SDK (3.7.1) - https://docs.flutter.dev/development/tools/sdk/releases
+- [x] Flutter SDK (3.10.5) - https://docs.flutter.dev/development/tools/sdk/releases
 - [x] Flutterfire CLI (0.2.7) - https://firebase.flutter.dev/docs/overview
 - [x] Android Studio (2021.1) - https://developer.android.com/studio
-- [x] Android SDK (32.1.0-rc1)
-- [x] Xcode (14.2) - https://developer.apple.com/xcode/
-- [x] VS Code (1.70.2) or similar IDE - https://code.visualstudio.com/
-- [x] CocoaPods (1.11.3) - https://cocoapods.org/
+- [x] Android SDK (33.0.0)
+- [x] Xcode (14.3.1) - https://developer.apple.com/xcode/
+- [x] VS Code (1.79.2) or similar IDE - https://code.visualstudio.com/
+- [x] CocoaPods (1.12.1) - https://cocoapods.org/
 
 ## Prerequisites Steps
 - Setup two Firebase Projects (Dev & Prod) - https://console.firebase.google.com/
@@ -45,6 +45,8 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
     - **Important: drag and drop the files from XCode, otherwise it won't work**
 
 ## Useful Commands
+- Build injection dependencies
+  - ##### `dart run build_runner build --delete-conflicting-outputs`
 - Run app in debug mode - dev
   - ##### `flutter run --flavor dev`
 - Build app in release mode for ios - dev
@@ -73,17 +75,17 @@ Flutterfire scaffold project intended to minimize the initial time setup of any 
 
 ### State Management
 #### Riverpod
-##### -> Riverpod (1.0.4) - https://pub.dev/packages/flutter_riverpod
+##### -> Riverpod (2.3.6) - https://pub.dev/packages/flutter_riverpod
 
 ### Firebase Features
 
 #### Authentication
-##### -> Email & Password (4.2.0) - https://pub.dev/packages/firebase_auth
-##### -> Google Provider (5.4.1) - https://pub.dev/packages/google_sign_in
-##### -> Apple Provider (4.1.0) - https://pub.dev/packages/sign_in_with_apple + https://pub.dev/packages/crypto
+##### -> Email & Password (4.6.3) - https://pub.dev/packages/firebase_auth
+##### -> Google Provider (6.1.4) - https://pub.dev/packages/google_sign_in
+##### -> Apple Provider (5.0.0) - https://pub.dev/packages/sign_in_with_apple + https://pub.dev/packages/crypto
 
 #### Persistance
-##### -> Firestore Collection (4.2.0) - https://pub.dev/packages/cloud_firestore
+##### -> Firestore Collection (4.8.2) - https://pub.dev/packages/cloud_firestore
 
 #### Push Notifications
-##### -> Firebase Messaging (14.1.4) - https://pub.dev/packages/firebase_messaging
+##### -> Firebase Messaging (14.6.4) - https://pub.dev/packages/firebase_messaging

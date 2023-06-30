@@ -15,55 +15,60 @@ final firebaseAuthProvider =
     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
 final authenticationRepositoryProvider =
-    Provider<FirebaseAuthentication>((ref) => FirebaseAuthentication(ref.read));
+    Provider<FirebaseAuthentication>((ref) => FirebaseAuthentication(ref));
 
 class FirebaseAuthentication implements AuthenticationRepo {
-  final Reader _read;
+  final Ref _ref;
 
-  const FirebaseAuthentication(this._read);
+  const FirebaseAuthentication(this._ref);
 
   @override
   Stream<User?> get authStateChanges =>
-      _read(firebaseAuthProvider).authStateChanges();
+      _ref.watch(firebaseAuthProvider).authStateChanges();
 
   @override
   AsyncValue<User?> getCurrentUser() {
     try {
-      return AsyncData(_read(firebaseAuthProvider).currentUser);
-    } on FirebaseAuthException catch (e) {
-      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
-    } on Exception catch (e) {
-      return AsyncError(Exception(getMessageFromException(e)));
+      return AsyncData(_ref.read(firebaseAuthProvider).currentUser);
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return AsyncError(
+          Exception(getMessageFromFirebaseErrorCode(e.code)), stackTrace);
+    } on Exception catch (e, stackTrace) {
+      return AsyncError(Exception(getMessageFromException(e)), stackTrace);
     }
   }
 
   @override
   Future<AsyncValue<void>> signOut() async {
     try {
-      await _read(firebaseAuthProvider).signOut();
+      await _ref.read(firebaseAuthProvider).signOut();
       return const AsyncValue.data(null);
-    } on FirebaseAuthException catch (e) {
-      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
-    } on Exception catch (e) {
-      return AsyncError(Exception(getMessageFromException(e)));
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return AsyncError(
+          Exception(getMessageFromFirebaseErrorCode(e.code)), stackTrace);
+    } on Exception catch (e, stackTrace) {
+      return AsyncError(Exception(getMessageFromException(e)), stackTrace);
     }
   }
 
   @override
   Future<AsyncValue<User>> signIn(String email, String password) async {
     try {
-      UserCredential userCredential = await _read(firebaseAuthProvider)
+      UserCredential userCredential = await _ref
+          .read(firebaseAuthProvider)
           .signInWithEmailAndPassword(email: email, password: password);
 
       if (userCredential.user == null) {
-        return const AsyncError("Error while loging in into the app");
+        return AsyncError(
+            "Error while loging in into the app", StackTrace.current);
       }
 
       return AsyncValue.data(userCredential.user as User);
-    } on FirebaseAuthException catch (e) {
-      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
-    } on Exception catch (e) {
-      return AsyncError(Exception(getMessageFromException(e)));
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return AsyncError(
+          Exception(getMessageFromFirebaseErrorCode(e.code)), stackTrace);
+    } on Exception catch (e, stackTrace) {
+      return AsyncError(Exception(getMessageFromException(e)), stackTrace);
     }
   }
 
@@ -91,7 +96,7 @@ class FirebaseAuthentication implements AuthenticationRepo {
           .signIn();
 
       if (googleUser == null) {
-        return const AsyncError("No google account provided.");
+        return AsyncError("No google account provided.", StackTrace.current);
       }
 
       final GoogleSignInAuthentication googleAuth =
@@ -137,10 +142,11 @@ class FirebaseAuthentication implements AuthenticationRepo {
       );
 
       return AsyncValue.data(user);
-    } on FirebaseAuthException catch (e) {
-      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
-    } on Exception catch (e) {
-      return AsyncError(e);
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return AsyncError(
+          Exception(getMessageFromFirebaseErrorCode(e.code)), stackTrace);
+    } on Exception catch (e, stackTrace) {
+      return AsyncError(e, stackTrace);
     }
   }
 
@@ -199,19 +205,21 @@ class FirebaseAuthentication implements AuthenticationRepo {
       );
 
       return AsyncValue.data(user);
-    } on FirebaseAuthException catch (e) {
-      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return AsyncError(
+          Exception(getMessageFromFirebaseErrorCode(e.code)), stackTrace);
     } on SignInWithAppleAuthorizationException catch (_) {
-      return const AsyncError("Error while loging in with Apple");
-    } on Exception catch (e) {
-      return AsyncError(Exception(getMessageFromException(e)));
+      return AsyncError("Error while loging in with Apple", StackTrace.current);
+    } on Exception catch (e, stackTrace) {
+      return AsyncError(Exception(getMessageFromException(e)), stackTrace);
     }
   }
 
   @override
   Future<AsyncValue<User>> signUp(String email, String password) async {
     try {
-      User user = await _read(firebaseAuthProvider)
+      User user = await _ref
+          .read(firebaseAuthProvider)
           .createUserWithEmailAndPassword(email: email, password: password)
           .then(
         (userCredential) async {
@@ -247,10 +255,11 @@ class FirebaseAuthentication implements AuthenticationRepo {
       );
 
       return AsyncValue.data(user);
-    } on FirebaseAuthException catch (e) {
-      return AsyncError(Exception(getMessageFromFirebaseErrorCode(e.code)));
-    } on Exception catch (e) {
-      return AsyncError(Exception(getMessageFromException(e)));
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return AsyncError(
+          Exception(getMessageFromFirebaseErrorCode(e.code)), stackTrace);
+    } on Exception catch (e, stackTrace) {
+      return AsyncError(Exception(getMessageFromException(e)), stackTrace);
     }
   }
 }

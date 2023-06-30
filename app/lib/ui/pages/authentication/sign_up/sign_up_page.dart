@@ -82,7 +82,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           backgroundColor: primary500,
           title: const Text("Sign up"),
           toolbarHeight: 70,
-          titleTextStyle: Theme.of(context).textTheme.headline4?.copyWith(
+          titleTextStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
@@ -188,10 +188,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                         children: [
                           TextSpan(
                               text: "Already have an account? ",
-                              style: Theme.of(context).textTheme.bodyText2),
+                              style: Theme.of(context).textTheme.bodyMedium),
                           TextSpan(
                             text: "Sign In",
-                            style: (Theme.of(context).textTheme.bodyText2
+                            style: (Theme.of(context).textTheme.bodyMedium
                                     as TextStyle)
                                 .copyWith(
                               fontWeight: FontWeight.w600,

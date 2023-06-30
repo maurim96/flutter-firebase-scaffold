@@ -73,7 +73,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
           backgroundColor: primary500,
           title: const Text("Log In"),
           toolbarHeight: 70,
-          titleTextStyle: Theme.of(context).textTheme.headline4?.copyWith(
+          titleTextStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
@@ -136,7 +136,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                             child: Text(
                               "Forgot password?",
                               textAlign: TextAlign.right,
-                              style: (Theme.of(context).textTheme.bodyText2
+                              style: (Theme.of(context).textTheme.bodyMedium
                                       as TextStyle)
                                   .copyWith(
                                 color: placeholder,
@@ -183,10 +183,10 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                         children: [
                           TextSpan(
                               text: "Don't have an account? ",
-                              style: Theme.of(context).textTheme.bodyText2),
+                              style: Theme.of(context).textTheme.bodyMedium),
                           TextSpan(
                             text: "Sign Up",
-                            style: (Theme.of(context).textTheme.bodyText2
+                            style: (Theme.of(context).textTheme.bodyMedium
                                     as TextStyle)
                                 .copyWith(
                               fontWeight: FontWeight.w600,
